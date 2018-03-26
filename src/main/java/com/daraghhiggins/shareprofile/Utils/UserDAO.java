@@ -15,6 +15,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+import static com.daraghhiggins.shareprofile.Utils.UserUtility.checkIfUserHasPermissionForRoot;
+import static com.daraghhiggins.shareprofile.Utils.UserUtility.createUserWithOrWithoutPrivilege;
+
 public class UserDAO {
     private static UserDAO instance;
 
@@ -70,7 +73,7 @@ public class UserDAO {
         Optional<User> user = this.getUserByUsername(username);
         final int accessCode = user.get().getAccess_code();
 
-        if (accessCode == 0) {
+        if (checkIfUserHasPermissionForRoot(user)) {
             try (Session session = sessionFactory.openSession()) {
                 Optional<User> userToDelete = this.getUserByUsername(usernameToDelete);
                 Transaction tx = session.beginTransaction();
@@ -91,25 +94,29 @@ public class UserDAO {
                            String firstName, String surnName) {
         Session session = HibernateUtil.getSession().openSession();
         session.beginTransaction();
+        int rootAccessVerificationIfNeeded = createUserWithOrWithoutPrivilege();
 
-        User user = new User();
-        user.setUser_name(username);
-        user.setFirstName(firstName);
-        user.setSurnName(surnName);
+        if (rootAccessVerificationIfNeeded != -1) {
+            User user = new User();
+            user.setUser_name(username);
+            user.setFirstName(firstName);
+            user.setSurnName(surnName);
 
-        UserUtility userUtility = new UserUtility();
-        String hashedPw = userUtility.hash(password);
-        user.setPassword(hashedPw);
+            UserUtility userUtility = new UserUtility();
+            String hashedPw = userUtility.hash(password);
+            user.setPassword(hashedPw);
 
-        user.setAccess_code(1);
-        session.save(user);
+            user.setAccess_code(rootAccessVerificationIfNeeded);
+            session.save(user);
+        }
         session.getTransaction().commit();
+        session.close();
     }
 
     public static void main (String[] args) {
         UserDAO userDAO = new UserDAO();
-//        userDAO.createUser("liam", "password", "Liam", "Miam");
+        userDAO.createUser("root", "root", "foo", "bar");
 //        userDAO.deleteUser("admin555", "admin123");
-        userDAO.getUserByUsername("liam");
+//        userDAO.getUserByUsername("liam");
     }
 }
