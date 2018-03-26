@@ -24,7 +24,11 @@ public class HibernateUtil {
         Session session = HibernateUtil.getSession().openSession();
         session.beginTransaction();
         User user = new User();
+        user.setUser_name("admin555");
         user.setFirstName("Daragh");
+        user.setSurnName("Higgins");
+        user.setPassword("password");
+        user.setAccess_code(0);
         session.save(user);
         session.getTransaction().commit();
     }

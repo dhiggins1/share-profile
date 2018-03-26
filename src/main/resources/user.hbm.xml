@@ -3,20 +3,23 @@
         "-//Hibernate/Hibernate Mapping DTD//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.daraghhiggins.shareprofile.User.User" table="USER">
-        <id name="userId" type="int" column="USER_ID">
+    <class name="com.daraghhiggins.shareprofile.User.User" table="user">
+        <id name="userId" type="int" column="userId">
             <generator class="assigned"/>
         </id>
-        <property name="username">
-            <column name="USERNAME"/>
+        <property name="access_code">
+            <column name="access_code"/>
+        </property>
+        <property name="user_name">
+            <column name="user_name"/>
         </property>
         <property name="firstName">
-            <column name="FIRSTNAME"/>
+            <column name="firstName"/>
         </property>
-        <property name="surnName" type="date">
-            <column name="SURNNAME"/>
-        </property><property name="username" type="date">
-            <column name="USERNAME"/>
+        <property name="surnName">
+            <column name="surnName"/>
+        </property><property name="password">
+            <column name="password"/>
         </property>
     </class>
 </hibernate-mapping>

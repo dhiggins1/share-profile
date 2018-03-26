@@ -4,24 +4,39 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.List;
-import java.util.Map;
 
 @Entity
-@Table(name="users")
-public class User {
+@Table(name="user")
+public class User{
+    @Id
+    @Column(name = "userId")
     private int userId;
-    private String username;
+    @Column(name = "user_name")
+    private String user_name;
+    @Column(name = "firstName")
     private String firstName;
+    @Column(name = "surnName")
     private String surnName;
-    private Map<String, List<Double>> shares;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "access_code")
+    private int access_code;
+//    private Map<String, List<Double>> shares;
 
-    public String getUsername() {
-        return username;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_name(String username) {
+        this.user_name = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -40,8 +55,6 @@ public class User {
         this.surnName = surnName;
     }
 
-    @Id
-    @Column(name = "userId")
     public int getUserId() {
         return userId;
     }
@@ -50,5 +63,11 @@ public class User {
         this.userId = userId;
     }
 
+    public int getAccess_code() {
+        return access_code;
+    }
 
+    public void setAccess_code(int access_code) {
+        this.access_code = access_code;
+    }
 }
