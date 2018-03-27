@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
+DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server
+nohup mysqld_safe &
+sleep 5
+mysql  < /root/SQL_SCRIPTS/user.sql
