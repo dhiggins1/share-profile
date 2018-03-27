@@ -3,8 +3,18 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import jQuery from 'jquery'
+import 'vue-material/dist/vue-material.min.css'
+import VueMaterial from 'vue-material'
+import Registration from '@/components/Registration.vue'
 
 Vue.config.productionTip = false
+
+window.jQuery = jQuery
+window.$ = jQuery
+
+Vue.use(VueMaterial)
+Vue.component('registration', Registration)
 
 /* eslint-disable no-new */
 new Vue({
