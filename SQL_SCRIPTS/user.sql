@@ -10,9 +10,13 @@ CREATE TABLE user
   user_name   VARCHAR(45)  NOT NULL,
   password    CHAR(255)    NULL,
   access_code INT          NULL,
+  email       VARCHAR(45)  NULL,
   CONSTRAINT userId_UNIQUE
   UNIQUE (userId),
   CONSTRAINT user_name_UNIQUE
   UNIQUE (user_name)
-)
-  ENGINE = InnoDB;
+);
+
+use mysql;
+update user set plugin='password' where User='root';
+flush privileges;

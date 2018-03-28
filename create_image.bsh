@@ -9,5 +9,13 @@ id=$(docker run -it -d -p80:80 -p1337:1337 share_profile bash)
 jar_file=$(ls target/ | grep share-profile | grep -v original )
 docker cp ./target/$jar_file $id:/root/
 docker cp ./SQL_SCRIPTS/ $id:/root/SQL_SCRIPTS/
+docker exec -it $id bash
+sleep 50
+cd SQL_SCRIPTS
+chmod +x start_db.bsh
+./start_db.bsh
+sleep 50
+nohup java -jar *.jar > /tmp/backend.log &
+
 
 
