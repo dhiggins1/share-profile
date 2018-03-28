@@ -21,6 +21,8 @@ public class User{
     private String password;
     @Column(name = "access_code")
     private int access_code;
+    @Column(name = "email")
+    private String email;
 //    private Map<String, List<Double>> shares;
 
     public String getUser_name() {
@@ -69,5 +71,13 @@ public class User{
 
     public void setAccess_code(int access_code) {
         this.access_code = access_code;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
