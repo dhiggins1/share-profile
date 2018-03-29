@@ -3,7 +3,7 @@
 
     <div class="login-fields">
       <md-field md-inline>
-        <md-input placeholder="Username"></md-input>
+        <md-input placeholder="Username" v-model="username"></md-input>
       </md-field>
 
       <md-field md-inline :md-toggle-password="true">
@@ -11,7 +11,7 @@
       </md-field>
 
       <div>
-        <md-button class="md-raised md-primary">Login</md-button>
+        <md-button class="md-raised md-primary" v-on:click="login()">Login</md-button>
       </div>
       Don't have an account? Register below
       <div>
@@ -22,19 +22,38 @@
 </template>
 
 <script>
-
+// import sha256 from 'sha256'
+import base64 from 'base-64'
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       initial: 'Initial Value',
-      password: ''
+      username: null,
+      password: null
     }
   },
   methods: {
     navToRegistration: function () {
       this.$router.push('/Registration')
+    },
+
+    login () {
+      var params = new URLSearchParams()
+      params.append('username', this.encodeCredentials())
+      this.axios.post('http://localhost:1337/users/login', params, { headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }}).then((response) => {
+        console.log(response)
+      })
+    },
+
+    encodeCredentials () {
+      // var pwd = sha256(this.password)
+      var credentials = this.username + ':' + this.password
+      console.log(credentials)
+      return base64.encode(credentials)
     }
   }
 }

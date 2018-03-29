@@ -29,7 +29,7 @@
       </md-field>
 
       <div>
-        <md-button class="md-raised md-accent" v-on:click="navToRegistration()">Register</md-button>
+        <md-button class="md-raised md-accent" v-on:click="register()">Register</md-button>
       </div>
     </div>
   </div>
@@ -45,10 +45,27 @@ export default {
       firstname: null,
       surname: null,
       email: null,
-      username: null
+      username: null,
+      encodedUserCredentials: null
+    }
+  },
+  methods: {
+    register () {
+      var params = new URLSearchParams()
+      params.append('username', this.username)
+      params.append('password', this.password)
+      params.append('email', this.email)
+      params.append('firstName', this.firstname)
+      params.append('surnName', this.surname)
+      this.axios.post('http://localhost:1337/users/register', params, { headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }}).then(function (response) {
+        console.log(response)
+      })
     }
   }
 }
+
 </script>
 
 <style scoped>

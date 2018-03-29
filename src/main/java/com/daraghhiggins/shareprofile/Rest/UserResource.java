@@ -2,6 +2,7 @@ package com.daraghhiggins.shareprofile.Rest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.daraghhiggins.shareprofile.User.User;
 import com.daraghhiggins.shareprofile.Utils.BasicAuthenticator;
@@ -14,12 +15,15 @@ import java.util.Optional;
 @Path("/users")
 public class UserResource {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{username}")
-    public Optional<User> getUser(@PathParam("username") JSONObject userObject) {
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response getUser(@FormParam("username") String userObject) {
         BasicAuthenticator basicAuthenticator = new BasicAuthenticator();
-        return basicAuthenticator.authenticate(userObject);
+        return Response.ok().entity(basicAuthenticator.authenticate(userObject))
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .allow("OPTIONS").build();
     }
 
     @GET
@@ -32,12 +36,13 @@ public class UserResource {
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void register(@FormParam("username") String username,
+    public String register(@FormParam("username") String username,
                          @FormParam("password") String password,
                          @FormParam("email") String email,
                          @FormParam("firstName") String firstName,
                          @FormParam("surnName") String surnName){
         UserDAO.getInstance().createUser(username, password,firstName, surnName);
+        return "Creation finished..";
     }
 
 }
