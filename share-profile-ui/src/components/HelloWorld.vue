@@ -46,6 +46,11 @@ export default {
         'Content-Type': 'application/x-www-form-urlencoded'
       }}).then((response) => {
         console.log(response)
+        if (response.data.userId !== 0) {
+          this.$router.push('/Dashboard')
+        }
+      }).catch((error) => {
+        console.log(error)
       })
     },
 

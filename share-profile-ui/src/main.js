@@ -9,6 +9,7 @@ import 'vue-material/dist/vue-material.min.css'
 import VueAxios from 'vue-axios'
 import VueMaterial from 'vue-material'
 import Registration from '@/components/Registration.vue'
+import Dashboard from '@/components/Dashboard.vue'
 
 Vue.config.productionTip = false
 
@@ -18,6 +19,7 @@ window.$ = jQuery
 Vue.use(VueMaterial)
 Vue.use(VueAxios, axios)
 Vue.component('registration', Registration)
+Vue.component('dashboard', Dashboard)
 
 /* eslint-disable no-new */
 new Vue({

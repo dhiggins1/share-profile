@@ -36,13 +36,16 @@ public class UserResource {
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String register(@FormParam("username") String username,
+    public Response register(@FormParam("username") String username,
                          @FormParam("password") String password,
                          @FormParam("email") String email,
                          @FormParam("firstName") String firstName,
                          @FormParam("surnName") String surnName){
         UserDAO.getInstance().createUser(username, password,firstName, surnName);
-        return "Creation finished..";
+        return Response.ok().entity("Creation finished...")
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .allow("OPTIONS").build();
     }
 
 }
