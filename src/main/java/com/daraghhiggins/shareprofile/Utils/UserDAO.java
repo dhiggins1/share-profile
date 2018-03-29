@@ -39,18 +39,16 @@ public class UserDAO {
         sessionFactory = config.buildSessionFactory(serviceRegistry);
     }
 
-    public Optional<User> getUserByUsername(final String username) {
-        Optional<User> userOptional = Optional.empty();
+    public User getUserByUsername(final String username) {
         Optional<List<User>> userList = this.getUsers();
         if(userList.isPresent()) {
             for(User user : userList.get()) {
                 if (user.getUser_name().equals(username)) {
-                    userOptional = Optional.of(user);
-                    return userOptional;
+                    return user;
                 }
             }
         }
-        return userOptional;
+        return null;
     }
 
     public Optional<List<User>> getUsers() {
@@ -69,26 +67,26 @@ public class UserDAO {
         return userList;
     }
 
-    public void deleteUser(String username, String usernameToDelete ) {
-        Optional<User> user = this.getUserByUsername(username);
-        final int accessCode = user.get().getAccess_code();
-
-        if (checkIfUserHasPermissionForRoot(user)) {
-            try (Session session = sessionFactory.openSession()) {
-                Optional<User> userToDelete = this.getUserByUsername(usernameToDelete);
-                Transaction tx = session.beginTransaction();
-                Object id = userToDelete.get();
-                session.delete(id);
-                tx.commit();
-                session.close();
-            } catch (HibernateException e) {
-                e.printStackTrace();
-            }
-
-        } else {
-            System.out.println("Do not have rights to delete");
-        }
-    }
+//    public void deleteUser(String username, String usernameToDelete ) {
+//        Optional<User> user = this.getUserByUsername(username);
+//        final int accessCode = user.get().getAccess_code();
+//
+//        if (checkIfUserHasPermissionForRoot(user)) {
+//            try (Session session = sessionFactory.openSession()) {
+//                Optional<User> userToDelete = this.getUserByUsername(usernameToDelete);
+//                Transaction tx = session.beginTransaction();
+//                Object id = userToDelete.get();
+//                session.delete(id);
+//                tx.commit();
+//                session.close();
+//            } catch (HibernateException e) {
+//                e.printStackTrace();
+//            }
+//
+//        } else {
+//            System.out.println("Do not have rights to delete");
+//        }
+//    }
 
     public void createUser(String username, String password,
                            String firstName, String surnName) {

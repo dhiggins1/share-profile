@@ -14,10 +14,10 @@ import java.util.Optional;
 @Path("/users")
 public class UserResource {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{username}")
-    public Optional<User> getUser(@PathParam("username") JSONObject userObject) {
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public User getUser(@FormParam("username") String userObject) {
         BasicAuthenticator basicAuthenticator = new BasicAuthenticator();
         return basicAuthenticator.authenticate(userObject);
     }
@@ -32,12 +32,13 @@ public class UserResource {
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void register(@FormParam("username") String username,
+    public String register(@FormParam("username") String username,
                          @FormParam("password") String password,
                          @FormParam("email") String email,
                          @FormParam("firstName") String firstName,
                          @FormParam("surnName") String surnName){
         UserDAO.getInstance().createUser(username, password,firstName, surnName);
+        return "Creation finished..";
     }
 
 }

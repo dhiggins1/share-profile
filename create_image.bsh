@@ -13,8 +13,9 @@ docker exec -it $id bash
 sleep 50
 cd SQL_SCRIPTS
 chmod +x start_db.bsh
+sleep 120
 ./start_db.bsh
-sleep 50
+sleep 120
 nohup java -jar *.jar > /tmp/backend.log &
 
 

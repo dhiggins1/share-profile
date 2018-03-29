@@ -18,5 +18,6 @@ CREATE TABLE user
 );
 
 use mysql;
-update user set plugin='password' where User='root';
+update user set authentication_string=PASSWORD("") where User='root';
+update user set plugin="mysql_native_password" where User='root';  # THIS LINE;
 flush privileges;
