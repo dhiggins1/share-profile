@@ -1,15 +1,14 @@
 <template>
   <div id="dashboard">
-    <p>Hello</p>
+    <md-button class="md-dense md-raised md-primary" v-on:click="cryptoRequest()">Populate Coin Base</md-button>
     <div class="md-layout md-gutter">
       <div class="md-layout-item md-size-100">
         <md-field id="usersField">
-          <v-select :items="currencyCode" v-model="codes" placeholder="Users" style="width:100%;"></v-select>
+          <v-select multiple :options="currencyCode" v-model="codes" placeholder="Users" style="width:100%;"></v-select>
           <span class="md-error">The dashboard users must be selected</span>
         </md-field>
       </div>
     </div>
-    <md-button class="md-dense md-raised md-primary" v-on:click="cryptoRequest()">Raised</md-button>
   </div>
 </template>
 
@@ -30,14 +29,10 @@ export default {
       let self = this
       this.axios.get('https://min-api.cryptocompare.com/data/all/coinlist')
         .then(response => {
-          // console.log(response.data.Data)
-          // var cryptoKeys = Object.keys(response.data.Data)
-          // for (var i = 0; i < cryptoKeys.length; i++) {
-          //   console.log(cryptoKeys[i], cryptoKeys[cryptoKeys[i]])
-          // }
-          // console.log(response.data.Data)
+          var i = 0
           Object.keys(response.data.Data).forEach(function (key) {
-            self.currencyCode.push(response.data.Data[key].FullName)
+            self.currencyCode.push({label: response.data.Data[key].FullName, value: i})
+            i++
           })
           console.log(self.currencyCode)
         })
